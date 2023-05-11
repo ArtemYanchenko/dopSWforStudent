@@ -1,9 +1,14 @@
 import React from 'react';
-import reportWebVitals from './reportWebVitals';
-import {rerenderEntireTree} from './render';
-import state from './components/redux/state';
+import ReactDOM from 'react-dom';
+import App from './App';
+import store from './components/redux/state';
+import {BrowserRouter} from 'react-router-dom';
 
 
-rerenderEntireTree(state);
+ReactDOM.render(
+    <BrowserRouter>
+            <App  store={store} dispatch={store.dispatch.bind(store)}/>
+    </BrowserRouter>, document.getElementById('root') as HTMLElement
+)
 
-reportWebVitals();
+

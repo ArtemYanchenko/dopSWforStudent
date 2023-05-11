@@ -5,19 +5,18 @@ import Nav from './components/Nav/Nav';
 import Profile from './components/Profile/Profile';
 import {Dialogs} from './components/Dialogs/Dialogs';
 import {Route, Routes} from 'react-router-dom';
-import {RootType} from './components/redux/state';
+import store, {ActionsType, RootType, StorePropsType} from './components/redux/state';
 
 
 type AppProps = {
-    state: RootType
-    addPost:()=>void
-    updateText:(postMessage: string)=>void
-    sendMessage:()=>void
-    updateMessageText:(message:string)=>void
+    store: StorePropsType
+    dispatch: (action: ActionsType) => void
 }
 
 
-function App(props:AppProps) {
+
+function App(props:AppProps){
+    const state = props.store.getState()
     return (
         <div className="app-wrapper">
             <Header/>
@@ -25,8 +24,8 @@ function App(props:AppProps) {
 
             <div className="app-wrapper-content">
                 <Routes>
-                    <Route path={'/profile'} element={<Profile profilePage={props.state.profilePage} updateText={props.updateText} addPost={props.addPost} />}/>
-                    <Route path={'/dialogs'} element={<Dialogs messagesPage={props.state.messagesPage} updateMessageText={props.updateMessageText} sendMessage={props.sendMessage}/>}/>
+                    <Route path={'/profile'} element={<Profile profilePage={state.profilePage} dispatch={props.dispatch.bind(store)}/>}/>
+                    <Route path={'/dialogs'} element={<Dialogs messagesPage={state.messagesPage} dispatch={props.dispatch.bind(store)}/>}/>
                 </Routes>
             </div>
         </div>
